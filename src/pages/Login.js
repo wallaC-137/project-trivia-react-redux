@@ -28,6 +28,7 @@ class Login extends React.Component {
   render() {
     const { validEmail, validaName } = this.state;
     // const { dispatch, history } = this.props;
+    const { history: { push } } = this.props;
     return (
       <div>
         <input
@@ -53,6 +54,12 @@ class Login extends React.Component {
           // onClick={ () => { dispatch(login(email)); history.push('/carteira'); } }
         >
           Play
+        </button>   
+        <button
+          data-testid="btn-settings"
+          onClick={ () => push('/settings') }
+        >
+          Configuração
         </button>
       </div>
     );
