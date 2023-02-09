@@ -54,7 +54,7 @@ class Login extends React.Component {
           // onClick={ () => { dispatch(login(email)); history.push('/carteira'); } }
         >
           Play
-        </button>
+        </button>   
         <button
           data-testid="btn-settings"
           onClick={ () => push('/settings') }
