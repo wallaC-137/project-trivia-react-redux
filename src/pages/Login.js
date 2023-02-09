@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 class Login extends React.Component {
   state = {
     validEmail: false,
-    email: '',
-    name: '',
     validaName: false,
   };
 
@@ -15,23 +13,20 @@ class Login extends React.Component {
     const validaEmail = (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(emailValue);
     this.setState({
       validEmail: validaEmail,
-      email: emailValue,
     });
   };
 
   verificaNome = (input) => {
-    const nameValue = input.target.value;
     const nameLength = input.target.value.length;
     const minLength = 3;
     const validName = nameLength >= minLength;
     this.setState({
       validaName: validName,
-      name: nameValue,
     });
   };
 
   render() {
-    const { email, name, validEmail, validaName } = this.state;
+    const { validEmail, validaName } = this.state;
     // const { dispatch, history } = this.props;
     return (
       <div>
@@ -64,7 +59,6 @@ class Login extends React.Component {
   }
 }
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
