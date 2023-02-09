@@ -1,11 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getToken } from '../api/api';
 
 class Login extends React.Component {
   state = {
     validEmail: false,
     validaName: false,
+  };
+
+  clickButton = async () => {
+    const { history } = this.props;
+    const tokenFind = await getToken();
+    localStorage.setItem('token', tokenFind);
+    history.push('/game');
+    // dispatch(login(this.state));
   };
 
   verificaEmail = (input) => {
@@ -51,7 +60,7 @@ class Login extends React.Component {
           data-testid="btn-play"
           disabled={ (validEmail && validaName) === false }
           type="button"
-          // onClick={ () => { dispatch(login(email)); history.push('/carteira'); } }
+          onClick={ this.clickButton }
         >
           Play
         </button>
