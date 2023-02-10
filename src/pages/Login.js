@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getToken } from '../api/api';
+import { login } from '../redux/actions/action';
 
 class Login extends React.Component {
   state = {
     validEmail: false,
     validaName: false,
+    nameUser: '',
+    email: '',
   };
 
   clickButton = async () => {
@@ -14,7 +17,6 @@ class Login extends React.Component {
     const tokenFind = await getToken();
     localStorage.setItem('token', tokenFind);
     history.push('/game');
-    // dispatch(login(this.state));
   };
 
   verificaEmail = (input) => {
@@ -22,21 +24,24 @@ class Login extends React.Component {
     const validaEmail = (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g).test(emailValue);
     this.setState({
       validEmail: validaEmail,
+      email: emailValue,
     });
   };
 
   verificaNome = (input) => {
+    const nameValue = input.target.value;
     const nameLength = input.target.value.length;
     const minLength = 3;
     const validName = nameLength >= minLength;
     this.setState({
       validaName: validName,
+      nameUser: nameValue,
     });
   };
 
   render() {
-    const { validEmail, validaName } = this.state;
-    // const { dispatch, history } = this.props;
+    const { validEmail, validaName, nameUser, email } = this.state;
+    const { dispatch } = this.props;
     const { history: { push } } = this.props;
     return (
       <div>
@@ -60,7 +65,7 @@ class Login extends React.Component {
           data-testid="btn-play"
           disabled={ (validEmail && validaName) === false }
           type="button"
-          onClick={ this.clickButton }
+          onClick={ () => { dispatch(login({ nameUser, email })); this.clickButton(); } }
         >
           Play
         </button>
@@ -75,6 +80,7 @@ class Login extends React.Component {
   }
 }
 Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
