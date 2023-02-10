@@ -44,6 +44,7 @@ describe('', () => {
 
     userEvent.type(inputName, 'Alguem');
     expect(playBtn).toBeDisabled()
+    
     userEvent.type(inputEmail, 'alguem@gmail.com');
     expect(playBtn).toBeEnabled()
 
