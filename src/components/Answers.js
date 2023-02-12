@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getQuestions } from '../api/api';
+import styles from './answers.module.css';
 
 export class answers extends Component {
   state = {
@@ -8,6 +9,7 @@ export class answers extends Component {
     results: [],
     alternatives: [],
     correctAlternative: '',
+    displayCorrectAnswer: false,
   };
 
   componentDidMount() {
@@ -38,6 +40,7 @@ export class answers extends Component {
   test = () => {
     this.setState((prev) => ({ idx: prev.idx >= prev
       .results.length - 1 ? 0 : prev.idx + 1 }), this.saveAnswerAlternatives);
+    this.isCorrect();
   };
 
   /**
@@ -73,8 +76,22 @@ export class answers extends Component {
     return shuffle;
   };
 
+  /**
+   * controla se a cor da resposta está correta ou incorreta deve ser renderizada
+   * função responsável por atualizar o estado displayCorrectAnswer
+   */
+  isCorrect = () => {
+    this.setState({ displayCorrectAnswer: true });
+  };
+
   render() {
-    const { results, idx, correctAlternative, alternatives } = this.state;
+    const {
+      results,
+      idx,
+      correctAlternative,
+      alternatives,
+      displayCorrectAnswer,
+    } = this.state;
     return (
       <div>
         <h2 data-testid="question-category">{results[idx]?.category}</h2>
@@ -84,6 +101,8 @@ export class answers extends Component {
             <button
               type="button"
               key={ index }
+              className={ displayCorrectAnswer && (answer !== correctAlternative ? styles // renderiza a cor da resposta correta e incorreta
+                .wrongAnswer : styles.correctAnswer) }
               data-testid={ answer !== correctAlternative ? `wrong-answer-${index}`
                 : 'correct-answer' }
               onClick={ this.test }
