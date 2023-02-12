@@ -10,10 +10,13 @@ export class answers extends Component {
     alternatives: [],
     correctAlternative: '',
     displayCorrectAnswer: false,
+    time: 30,
+    btnDisabled: false,
   };
 
   componentDidMount() {
     this.initialFunction();
+    this.timerFunc();
   }
 
   /**
@@ -32,6 +35,22 @@ export class answers extends Component {
       localStorage.removeItem('token');
       return push('/');
     }
+  };
+
+  /**
+   * função responsável por atualizar o estado time e desabilitar os botões caso o tempo acabe
+   */
+  timerFunc = () => {
+    const { time } = this.state;
+    const sec = 1000;
+    const intervalId = setInterval(() => {
+      this.setState((prevState) => ({ time: prevState.time - 1 }));
+    }, sec);
+
+    setTimeout(() => {
+      clearInterval(intervalId);
+      this.setState({ time: 30, btnDisabled: true });
+    }, time * sec);
   };
 
   /**
@@ -55,7 +74,7 @@ export class answers extends Component {
 
   /**
    * pega as respostas corretas e incorretas e retorna um único array com as respostas
-   * @returns {array} - retorna um array com as respostas
+   * @returns {array} - retorna um array com as respostas -
    */
   options = () => {
     const { results, idx } = this.state;
@@ -91,6 +110,8 @@ export class answers extends Component {
       correctAlternative,
       alternatives,
       displayCorrectAnswer,
+      time,
+      btnDisabled,
     } = this.state;
     return (
       <div>
@@ -101,6 +122,7 @@ export class answers extends Component {
             <button
               type="button"
               key={ index }
+              disabled={ btnDisabled }
               className={ displayCorrectAnswer && (answer !== correctAlternative ? styles // renderiza a cor da resposta correta e incorreta
                 .wrongAnswer : styles.correctAnswer) }
               data-testid={ answer !== correctAlternative ? `wrong-answer-${index}`
@@ -111,6 +133,7 @@ export class answers extends Component {
             </button>
           ))}
         </div>
+        <h2>{ time }</h2>
       </div>
     );
   }
