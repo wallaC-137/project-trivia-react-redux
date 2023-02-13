@@ -1,25 +1,28 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Header from '../components/Header';
 
 class Feedback extends Component {
-  render() {
+  componentDidMount() {
+    this.motivationalMassage();
+  }
+
+  motivationalMassage = () => {
     const { assertions } = this.props;
     const number = 3;
     return (assertions >= number ? (
       <div>
         <h1 data-testid="feedback-text">Well Done!</h1>
-      </div>) : (<div><h1 data-testid="feedback-text">Could be better...</h1></div>)
-import PropTypes from 'prop-types';
-import Header from '../components/Header';
+      </div>) : (<div><h1 data-testid="feedback-text">Could be better...</h1></div>));
+  };
 
-class Feedback extends Component {
   render() {
     const { history: { push } } = this.props;
     return (
       <div>
         <Header />
-        <h1 data-testid="feedback-text">Feedback</h1>
+        {this.motivationalMassage}
         <button
           data-testid="btn-ranking"
           onClick={ () => push('/ranking') }
