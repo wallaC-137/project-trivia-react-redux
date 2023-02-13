@@ -8,6 +8,11 @@ class Feedback extends Component {
     this.motivationalMassage();
   }
 
+  clickButton = async () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
   motivationalMassage = () => {
     const { assertions, score } = this.props;
     const number = 3;
@@ -39,6 +44,13 @@ class Feedback extends Component {
           Ranking
           {' '}
 
+        </button>
+        <button
+          type="submit"
+          data-testid="btn-play-again"
+          onClick={ this.clickButton }
+        >
+          Play Again
         </button>
       </div>
     );
