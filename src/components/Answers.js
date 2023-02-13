@@ -75,11 +75,19 @@ class Answers extends Component {
    * responsável por atualizar o estado idx e renderizar a próxima pergunta além de chamar a função saveAnswerAlternatives
    */
   nextQuestion = () => {
+    const { idx, results } = this.state;
+    const { history: { push } } = this.props;
+    const idxMax = results.length - 1;
+
+    if (idx === idxMax) {
+      return push('/feedback'); // apos a ultima pergunta, manda o usuário para a tela de feedback
+    }
+
     this.setState(
-      (prev) => ({ idx: prev.idx >= prev
-        .results.length - 1 ? 0 : prev.idx + 1,
-      renderBtn: false,
-      displayCorrectAnswer: false,
+      (prev) => ({ idx: prev.idx + 1,
+        renderBtn: false,
+        displayCorrectAnswer: false,
+        time: 30, // reseta o tempo
       }),
       this.saveAnswerAlternatives,
     );
