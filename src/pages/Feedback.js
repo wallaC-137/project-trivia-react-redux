@@ -13,6 +13,7 @@ class Feedback extends Component {
         <h1 data-testid="feedback-text">Feedback</h1>
         <button
           type="submit"
+          data-testid="btn-play-again"
           onClick={ this.clickButton }
         >
           Play Again
