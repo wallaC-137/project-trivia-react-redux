@@ -22,7 +22,7 @@ class Feedback extends Component {
     return (
       <div>
         <Header />
-        {this.motivationalMassage}
+        {this.motivationalMassage()}
         <button
           data-testid="btn-ranking"
           onClick={ () => push('/ranking') }
