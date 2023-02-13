@@ -23,6 +23,8 @@ class Feedback extends Component {
           <p data-testid="feedback-total-question">{assertions}</p>
           <p data-testid="feedback-total-score">{score}</p>
         </div>));
+      </div>) : (<div><h1 data-testid="feedback-text">Could be better...</h1></div>));
+
   };
 
   render() {
