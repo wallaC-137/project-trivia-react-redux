@@ -13,7 +13,8 @@ class Answers extends Component {
     correctAlternative: '',
     displayCorrectAnswer: false,
     time: 30,
-    btnDisabled: false,
+    btnDisabled: false, // desabilita o botão de responder quando o tempo acaba
+    renderBtn: false, // responsável por renderizar ou não botão next
   };
 
   componentDidMount() {
@@ -56,23 +57,40 @@ class Answers extends Component {
   };
 
   /**
-   * função responsável por atualizar o estado idx e chamar a função saveAnswerAlternatives
+   * função responsável por atualizar o estado botão next e displayCorrectAnswer além de realizar o dispatch com o score
    */
   test = (answer, difficulty) => {
     const { time, correctAlternative } = this.state;
     const { dispatch } = this.props;
-    this.setState(
-      (prev) => ({ idx: prev.idx >= prev
-        .results.length - 1 ? 0 : prev.idx + 1 }),
-      this.saveAnswerAlternatives,
-    );
 
-    this.isCorrect();
+    this.setState({ renderBtn: true, displayCorrectAnswer: true });
 
     if (answer === correctAlternative) {
       const finalResult = this.calculateScore(difficulty, time);
       return dispatch(saveScore(finalResult)); // realiza o dispatch com o novo score somente se a resposta estiver correta
     }
+  };
+
+  /**
+   * responsável por atualizar o estado idx e renderizar a próxima pergunta além de chamar a função saveAnswerAlternatives
+   */
+  nextQuestion = () => {
+    const { idx, results } = this.state;
+    const { history: { push } } = this.props;
+    const idxMax = results.length - 1;
+
+    if (idx === idxMax) {
+      return push('/feedback'); // apos a ultima pergunta, manda o usuário para a tela de feedback
+    }
+
+    this.setState(
+      (prev) => ({ idx: prev.idx + 1,
+        renderBtn: false,
+        displayCorrectAnswer: false,
+        time: 30, // reseta o tempo
+      }),
+      this.saveAnswerAlternatives,
+    );
   };
 
   /**
@@ -130,14 +148,6 @@ class Answers extends Component {
     return shuffle;
   };
 
-  /**
-   * controla se a cor da resposta está correta ou incorreta deve ser renderizada
-   * função responsável por atualizar o estado displayCorrectAnswer
-   */
-  isCorrect = () => {
-    this.setState({ displayCorrectAnswer: true });
-  };
-
   render() {
     const {
       results,
@@ -147,13 +157,14 @@ class Answers extends Component {
       displayCorrectAnswer,
       time,
       btnDisabled,
+      renderBtn,
     } = this.state;
     return (
       <div>
         <h2 data-testid="question-category">{results[idx]?.category}</h2>
         <h3 data-testid="question-text">{results[idx]?.question}</h3>
         <div data-testid="answer-options">
-          { alternatives.map((answer, index) => ( // renderiza as respostas respostas corretas e incorretas
+          { alternatives.map((answer, index) => ( // renderiza as respostas respostas corretas e incorretas.
             <button
               type="button"
               key={ index }
@@ -167,6 +178,15 @@ class Answers extends Component {
               {answer}
             </button>
           ))}
+          <br />
+          {renderBtn && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.nextQuestion }
+            >
+              Next
+            </button>)}
         </div>
         <h2>{ time }</h2>
       </div>
