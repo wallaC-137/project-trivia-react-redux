@@ -164,7 +164,7 @@ class Answers extends Component {
         <h2 data-testid="question-category">{results[idx]?.category}</h2>
         <h3 data-testid="question-text">{results[idx]?.question}</h3>
         <div data-testid="answer-options">
-          { alternatives.map((answer, index) => ( // renderiza as respostas respostas corretas e incorretas
+          { alternatives.map((answer, index) => ( // renderiza as respostas respostas corretas e incorretas.
             <button
               type="button"
               key={ index }
