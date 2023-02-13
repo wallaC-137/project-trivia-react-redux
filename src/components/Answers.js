@@ -34,7 +34,6 @@ class Answers extends Component {
 
     const idResponse = 3;
     if (responseCode === idResponse) {
-      alert('Sua sessão expirou');
       localStorage.removeItem('token');
       return push('/');
     }
