@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 
@@ -33,7 +33,7 @@ class Feedback extends Component {
   render() {
     const { history: { push } } = this.props;
     return (
-      <div>
+      <div className="feedback">
         <Header />
         {this.motivationalMassage()}
         <button
@@ -56,6 +56,7 @@ class Feedback extends Component {
     );
   }
 }
+
 Feedback.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -74,4 +75,4 @@ Feedback.propTypes = {
 
 export default connect(mapStateToProps)(Feedback);
 
-// test
+
