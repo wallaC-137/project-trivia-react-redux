@@ -13,15 +13,7 @@ class Feedback extends Component {
     return (
       <div className="feedback">
         <h1 data-testid="feedback-text">Feedback</h1>
-        <button
-          type="submit"
-          data-testid="btn-play-again"
-          onClick={ this.clickButton }
-        >
-          Play Again
-      <div>
         <Header />
-        <h1 data-testid="feedback-text">Feedback</h1>
         <button
           data-testid="btn-ranking"
           onClick={ () => push('/ranking') }
@@ -30,6 +22,13 @@ class Feedback extends Component {
           Ranking
           {' '}
 
+        </button>
+        <button
+          type="submit"
+          data-testid="btn-play-again"
+          onClick={ this.clickButton }
+        >
+          Play Again
         </button>
       </div>
     );
