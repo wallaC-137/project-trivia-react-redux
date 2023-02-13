@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { getQuestions } from '../api/api';
 import styles from './answers.module.css';
+import { saveScore } from '../redux/actions/action';
 
-export class answers extends Component {
+class Answers extends Component {
   state = {
     idx: 0,
     results: [],
@@ -56,10 +58,43 @@ export class answers extends Component {
   /**
    * função responsável por atualizar o estado idx e chamar a função saveAnswerAlternatives
    */
-  test = () => {
-    this.setState((prev) => ({ idx: prev.idx >= prev
-      .results.length - 1 ? 0 : prev.idx + 1 }), this.saveAnswerAlternatives);
+  test = (answer, difficulty) => {
+    const { time, correctAlternative } = this.state;
+    const { dispatch } = this.props;
+    this.setState(
+      (prev) => ({ idx: prev.idx >= prev
+        .results.length - 1 ? 0 : prev.idx + 1 }),
+      this.saveAnswerAlternatives,
+    );
+
     this.isCorrect();
+
+    if (answer === correctAlternative) {
+      const finalResult = this.calculateScore(difficulty, time);
+      return dispatch(saveScore(finalResult)); // realiza o dispatch com o novo score somente se a resposta estiver correta
+    }
+  };
+
+  /**
+   * Responsável por calcular o resultado da pontuação
+   * @param {*} difficulty - recebe a dificuldade da pergunta
+   * @param {*} time - recebe o tempo restante vindo do estado time
+   * @returns - retorna o resultado da pontuação
+   */
+  calculateScore = (difficulty, time) => {
+    const scoreBase = 10;
+    const multiplier2 = 2;
+    const multiplier3 = 3;
+    switch (difficulty) {
+    case 'easy':
+      return scoreBase + time;
+    case 'medium':
+      return scoreBase + (time * multiplier2);
+    case 'hard':
+      return scoreBase + (time * multiplier3);
+    default:
+      return 0;
+    }
   };
 
   /**
@@ -74,7 +109,7 @@ export class answers extends Component {
 
   /**
    * pega as respostas corretas e incorretas e retorna um único array com as respostas
-   * @returns {array} - retorna um array com as respostas -
+   * @returns {array} - retorna um array com as respostas
    */
   options = () => {
     const { results, idx } = this.state;
@@ -127,7 +162,7 @@ export class answers extends Component {
                 .wrongAnswer : styles.correctAnswer) }
               data-testid={ answer !== correctAlternative ? `wrong-answer-${index}`
                 : 'correct-answer' }
-              onClick={ this.test }
+              onClick={ () => this.test(answer, results[idx].difficulty) }
             >
               {answer}
             </button>
@@ -139,10 +174,10 @@ export class answers extends Component {
   }
 }
 
-answers.propTypes = {
+Answers.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
 }.isRequired;
 
-export default answers;
+export default connect()(Answers);
