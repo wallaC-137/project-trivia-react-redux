@@ -8,7 +8,7 @@ class Login extends React.Component {
   state = {
     validEmail: false,
     validaName: false,
-    nameUser: '',
+    name: '',
     email: '',
   };
 
@@ -35,12 +35,12 @@ class Login extends React.Component {
     const validName = nameLength >= minLength;
     this.setState({
       validaName: validName,
-      nameUser: nameValue,
+      name: nameValue,
     });
   };
 
   render() {
-    const { validEmail, validaName, nameUser, email } = this.state;
+    const { validEmail, validaName, name, email } = this.state;
     const { dispatch } = this.props;
     const { history: { push } } = this.props;
     return (
@@ -65,7 +65,7 @@ class Login extends React.Component {
           data-testid="btn-play"
           disabled={ (validEmail && validaName) === false }
           type="button"
-          onClick={ () => { dispatch(login({ nameUser, email })); this.clickButton(); } }
+          onClick={ () => { dispatch(login({ name, email })); this.clickButton(); } }
         >
           Play
         </button>
