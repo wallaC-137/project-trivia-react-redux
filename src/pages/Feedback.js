@@ -18,6 +18,15 @@ class Feedback extends Component {
           {' '}
 
         </button>
+        <button
+          data-testid="btn-go-home"
+          onClick={ () => push('/') }
+        >
+          {' '}
+          Ínicio
+          {' '}
+
+        </button>
       </div>
     );
   }
