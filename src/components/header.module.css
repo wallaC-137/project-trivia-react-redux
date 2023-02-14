@@ -1,0 +1,39 @@
+.playerHeader {
+  align-items: center;
+  background-color: white;
+  color: black;
+  display: flex;
+  height: 113px;
+  justify-content: end;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+}
+
+.infoPlayerHeader {
+  margin: 30px;
+  position: absolute;
+  right: 5%;
+  top: 1%;
+  transform: translateX(50%);
+}
+
+.imgHeader {
+  border-radius: 18px;
+  height: 37px;
+  width: 37px;
+}
+
+.divImg {
+  align-items: center;
+  display: flex;
+  gap: 11px;
+  justify-content: center;
+}
+
+.headerGravatar {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 100px;
+  width: 500px;
+}

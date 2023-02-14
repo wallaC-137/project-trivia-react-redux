@@ -159,35 +159,52 @@ class Answers extends Component {
       renderBtn,
     } = this.state;
     return (
-      <div>
-        <h2 data-testid="question-category">{results[idx]?.category}</h2>
-        <h3 data-testid="question-text">{results[idx]?.question}</h3>
-        <div data-testid="answer-options">
-          { alternatives.map((answer, index) => ( // renderiza as respostas respostas corretas e incorretas.
-            <button
-              type="button"
-              key={ index }
-              disabled={ btnDisabled }
-              className={ displayCorrectAnswer && (answer !== correctAlternative ? styles // renderiza a cor da resposta correta e incorreta
-                .wrongAnswer : styles.correctAnswer) }
-              data-testid={ answer !== correctAlternative ? `wrong-answer-${index}`
-                : 'correct-answer' }
-              onClick={ () => this.test(answer, results[idx].difficulty) }
-            >
-              {answer}
-            </button>
-          ))}
+      <div className={ styles.divMain }>
+        <section className={ styles.answers }>
+          <div className={ styles.paiCategory }>
+            <div className={ styles.category }>
+              <p
+                data-testid="question-category"
+                className={ styles.elementCategory }
+              >
+                {results[idx]?.category}
+
+              </p>
+            </div>
+            <h3 data-testid="question-text">{results[idx]?.question}</h3>
+          </div>
+          <h2 className={ styles.timer }>{ `Tempo: ${time}` }</h2>
+        </section>
+        <div data-testid="answer-options" className={ styles.paiBtn }>
+          { alternatives.map((answer, index) => {
+            const algo = displayCorrectAnswer && (answer !== correctAlternative ? styles // renderiza a cor da resposta correta e incorreta
+              .wrongAnswer : styles.correctAnswer);
+            return (
+              <button
+                type="button"
+                key={ index }
+                disabled={ btnDisabled }
+                // className={}
+                className={ `${algo} ${styles.btn}` }
+                data-testid={ answer !== correctAlternative ? `wrong-answer-${index}`
+                  : 'correct-answer' }
+                onClick={ () => this.test(answer, results[idx].difficulty) }
+              >
+                {answer}
+              </button>
+            );
+          })}
           <br />
           {renderBtn && (
             <button
               type="button"
               data-testid="btn-next"
               onClick={ this.nextQuestion }
+              className={ styles.btnNext }
             >
               Next
             </button>)}
         </div>
-        <h2>{ time }</h2>
       </div>
     );
   }

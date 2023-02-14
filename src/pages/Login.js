@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getToken } from '../api/api';
 import { login } from '../redux/actions/action';
+import styles from './login.module.css';
 
 class Login extends React.Component {
   state = {
@@ -44,8 +45,9 @@ class Login extends React.Component {
     const { dispatch } = this.props;
     const { history: { push } } = this.props;
     return (
-      <div>
+      <div className={ styles.divLogin }>
         <input
+          className={ styles.inputLogin }
           name="name-player"
           type="text"
           data-testid="input-player-name"
@@ -54,6 +56,7 @@ class Login extends React.Component {
           onChange={ this.verificaNome }
         />
         <input
+          className={ styles.inputLogin }
           name="email-player"
           type="text"
           data-testid="input-gravatar-email"
@@ -62,6 +65,7 @@ class Login extends React.Component {
           onChange={ this.verificaEmail }
         />
         <button
+          className={ styles.btnLogin }
           data-testid="btn-play"
           disabled={ (validEmail && validaName) === false }
           type="button"
@@ -70,6 +74,7 @@ class Login extends React.Component {
           Play
         </button>
         <button
+          className={ styles.btnLogin }
           data-testid="btn-settings"
           onClick={ () => push('/settings') }
         >
